@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 
+
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID + "";
 const FIREBASE_PRIVATE_KEY = process.env.FIREBASE_PRIVATE_KEY + "";
 const FIREBASE_CLIENT_EMAIL = process.env.FIREBASE_CLIENT_EMAIL + "";
@@ -25,21 +26,21 @@ exports.handler = async function (event: any) {
         console.error("Firebase admin initialization error", error.stack);
     }
 }
-  let {
-    body :{name, direction, dni, phone_number, items}
-  } = req
+  // let {
+  //   body :{name, direction, dni, phone_number, items}
+  // }
   
   try {
-    const collection = await admin.firestore().collection('orders').add({
-      name,direction,dni,phone_number,items
-    })
-
-    res.statusCode = 200
-    console.log(req)
-    res.json({ data: 'ók' })
+    const collection = await admin.firestore().collection("orders").get(
+    //   {
+    //   name,direction,dni,phone_number,items
+    // }
+      
+    );let data = collection.docs.map((doc) => doc.data());
+        
+    return respond(data);
   } catch (error) {
-    console.log(error)
-    res.json({ error })
+    return respond(error);
   }
 }
 function respond(data: any, statusCode = 200) {

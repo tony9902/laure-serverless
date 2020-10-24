@@ -24,7 +24,7 @@ exports.handler = async function (event: any) {
             // eslint-disable-next-line no-console
             console.error("Firebase admin initialization error", error.stack);
         }
-    }
+    }   
     try {
         const collection = await admin
             .firestore()
