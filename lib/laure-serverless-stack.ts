@@ -59,6 +59,17 @@ export class LaureServerlessStack extends cdk.Stack {
             timeout: (Duration.seconds(30))
         });
 
+        new lambda.Function(this, "productsAddHandler", {
+            runtime: lambda.Runtime.NODEJS_10_X,
+            handler: "products/add.handler",
+            code: lambda.Code.fromAsset("lambda"),
+            environment: {
+                FIREBASE_PROJECT_ID: require("../env.json").FIREBASE_PROJECT_ID,
+                FIREBASE_PRIVATE_KEY:require("../env.json").FIREBASE_PRIVATE_KEY,
+                FIREBASE_CLIENT_EMAIL: require("../env.json").FIREBASE_CLIENT_EMAIL,
+            },
+            timeout: (Duration.seconds(30))
+        });
 
         // The code that defines your stack goes here
     }
