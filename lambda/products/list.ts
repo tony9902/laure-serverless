@@ -1,52 +1,46 @@
-import * as admin from "firebase-admin";
+import { v4 as uuidv4 } from "uuid";
+import { PutObjectRequest } from 'aws-sdk/clients/s3';
 
-const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID + "";
-const FIREBASE_PRIVATE_KEY = process.env.FIREBASE_PRIVATE_KEY + "";
-const FIREBASE_CLIENT_EMAIL = process.env.FIREBASE_CLIENT_EMAIL + "";
-const params = {
-    projectId: FIREBASE_PROJECT_ID,
-    private_key: FIREBASE_PRIVATE_KEY,
-    client_email: FIREBASE_CLIENT_EMAIL,
-};
+let tableNews = process.env.TABLE_NEWS;
 
 exports.handler = async function (event: any) {
+    
     try {
-        admin.initializeApp({
-            credential: admin.credential.cert(params),
-            databaseURL: "https://laure-shop.firebaseio.com",
-        });
-    } catch (error) {
-        /*
-         * We skip the "already exists" message which is
-         * not an actual error when we're hot-reloading.
-         */
-        if (!/already exists/u.test(error.message)) {
-            // eslint-disable-next-line no-console
-            console.error("Firebase admin initialization error", error.stack);
-        }
-    }
-    try {
-        const collection = await admin.firestore().collection("products").get();
-        let data = collection.docs.map((doc) => {
-            const data = doc.data();
-            return { id: doc.id, ...data };
-        });
+        Generate Date Now
+    let date = new Date().toISOString();
+
+    // Set ID and default params
+    body.params.newId = uuidv4();
+    body.params.status = 1;
+    body.params.createAt = date;
+    body.params.updateAt = date;
+    body.params.statusAt = date;
+
+    // Save item to DB
+    await saveItem({
+      tableName: tableNews,
+      item: {
+        ...body.params
+      }
+    });
         return respond(data);
     } catch (error) {
         return respond(error);
     }
-};
 
-function respond(data: any, statusCode = 200) {
-    return {
-        statusCode: statusCode,
-        headers: {
-            "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-            "Access-Control-Allow-Credentials": true, // Required for cookies,
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Methods": "*",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+    
+};
+export const saveItem = ({ tableName : string, item }) => {
+    const params:P = {
+      TableName: tableName,
+      Item: item
     };
-}
+  
+    return dynamoDb
+      .put(params)
+      .promise()
+      .then(() => item);
+  };
+
+
+
