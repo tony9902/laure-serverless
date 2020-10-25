@@ -47,5 +47,6 @@ export class LaureDashboardProductsServerlessStack extends cdk.Stack {
         // https://laure-files.s3.amazonaws.com
 
         laureResources.bucket.grantReadWrite(this.productAddHandler)
+        this.productTable.grantReadWriteData(this.productAddHandler)
     }
 }
