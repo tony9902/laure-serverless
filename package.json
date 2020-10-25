@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy":"npm run build && cdk deploy"
+    "deploy": "npm run build && cdk deploy"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.68.0",
@@ -23,6 +23,7 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.70.0",
     "@aws-cdk/aws-lambda": "^1.68.0",
     "@aws-cdk/aws-s3": "^1.68.0",
     "@aws-cdk/core": "1.68.0",
