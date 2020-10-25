@@ -3,7 +3,7 @@ import * as s3 from "@aws-cdk/aws-s3";
 import * as lambda from "@aws-cdk/aws-lambda";
 import { Duration } from "@aws-cdk/core";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
-import { LaureResourcesServerlessStack } from './laure-resources.stack';
+import { LaureResourcesServerlessStack } from './laure-dashboard-resources.stack';
 
 export class LaureDashboardProductsServerlessStack extends cdk.Stack {
     public readonly productListHandler: lambda.Function;
