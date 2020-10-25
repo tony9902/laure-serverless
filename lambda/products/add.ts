@@ -39,7 +39,8 @@ exports.handler = async function (event: any) {
 
         let createAt, updateAt = date;
 
-        const item = saveItem(TABLE_PRODUCT, {
+        const item = await saveItem(TABLE_PRODUCT, {
+            id,
             brand,
             category,
             name,
