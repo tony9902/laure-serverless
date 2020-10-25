@@ -37,9 +37,14 @@ export class LaureDashboardProductsServerlessStack extends cdk.Stack {
             code: lambda.Code.fromAsset("lambda"),
             timeout: Duration.seconds(10),
             environment: {
-              PRODUCT_TABLE_NAME: this.productTable.tableName
+              PRODUCT_TABLE_NAME: this.productTable.tableName,
+              BUCKET_NAME: laureResources.bucket.bucketName,
+              BUCKET_URL: laureResources.bucket.bucketWebsiteUrl
             }
         });
+
+
+        // https://laure-files.s3.amazonaws.com
 
         laureResources.bucket.grantReadWrite(this.productAddHandler)
     }
