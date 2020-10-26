@@ -19,13 +19,15 @@ exports.handler = async function (event: any) {
         base64_image.replace(/^data:image\/\w+;base64,/, ""),
         "base64"
     );
-    // const type = base64_image.split(";")[0].split("/")[1];
+    const type = base64_image.split(";")[0].split("/")[1];
 
     const params: PutObjectRequest = {
         Bucket: BUCKET_NAME,
-        Key: `images/${id}.jpg`, // images/e68b6ea3-2042-40df-a45b-289a3608475d.jpg
+        Key: `images/${id}.${type}`, // images/e68b6ea3-2042-40df-a45b-289a3608475d.jpg
         Body: base64Data,
-        ContentType: `image/jpg`,
+        ACL: 'public-read',
+        ContentEncoding: 'base64',
+        ContentType: `image/${type}`,
     };
 
     try {
