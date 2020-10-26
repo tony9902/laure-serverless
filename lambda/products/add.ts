@@ -20,6 +20,9 @@ exports.handler = async function (event: any) {
         "base64"
     );
     const type = base64_image.split(";")[0].split("/")[1];
+    console.log(base64_image.replace(/^data:image\/\w+;base64,/, ""))
+    // console.log(base64Data)
+    // const type = base64_image.split(";")[0].split("/")[1];
 
     const params: PutObjectRequest = {
         Bucket: BUCKET_NAME,
@@ -33,11 +36,11 @@ exports.handler = async function (event: any) {
     try {
         const image = await s3.upload(params).promise();
 
-        console.log(image)
+        // console.log(image)
 
         let image_url = `${BUCKET_URL}/${params.Key}`;
 
-        console.log(image_url)
+        // console.log(image_url)
 
         let createAt, updateAt = date;
 
@@ -53,7 +56,7 @@ exports.handler = async function (event: any) {
             updateAt
         });
 
-        console.log(item)
+        // console.log(item)
 
         return respond();
     } catch (error) {
